@@ -103,8 +103,10 @@ function store_trial() {
 
 // change rectangle color to blue to indicate experiment ending
 function ending() {
+    document.getElementById('stimulus_id').style.display = 'none';
+    document.getElementById('btn_id').style.display = 'none';
     console.log('THE END');
-    'touchforce_pilot_' + document.getElementById("test_name").value + jscd.os + '_' +
+    f_name = 'touchforce_pilot_' + document.getElementById("test_name").value + jscd.os + '_' +
         jscd.browser + '_' + date_time + '.txt';
     full_data += jscd_text + "\n" + JSON.stringify(full_force_data);
 }
