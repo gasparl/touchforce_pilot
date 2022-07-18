@@ -27,10 +27,10 @@ function begin() {
         item: "go",
         ssd: 0
     });
-    for (var i = 2; i < 12; i++) {
+    for (var i = 1; i < 11; i++) {
         allstims.push({
             item: "stop",
-            ssd: i * 40
+            ssd: i * 30
         });
     }
     allstims = shuffle(allstims);
@@ -159,7 +159,7 @@ function dl_as_file() {
 // store data on server
 
 function upload() {
-    fetch('https://homepage.univie.ac.at/gaspar.lukacs/forcetouch_results/kb_id.php', {
+    fetch('https://homepage.univie.ac.at/gaspar.lukacs/forcetouch_results/force.php', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
@@ -180,8 +180,8 @@ function upload() {
         })
         .catch((error) => {
             console.log('Request failed: ', error);
-            document.getElementById('pass_pre').style.color = 'red';
-            document.getElementById('pass_pre').innerHTML = 'Server connection failed! ' + error;
-            document.getElementById('div_end_error').style.display = 'block';
+
+            document.getElementById('dl_id').textContent = "Thank you! (The data is successfully saved on the sever, you can close this page.)";
+            document.getElementById('dl_id').style.display = 'block';
         });
 }
