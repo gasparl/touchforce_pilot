@@ -23,7 +23,7 @@ function begin() {
     DT.loopOn();
 
     askTouch();
-    allstims = new Array(30).fill({
+    allstims = new Array(28).fill({
         item: "go",
         ssd: 0
     });
