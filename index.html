@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
+    <title>JS Display Time Measure</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Gaspar Lukacs">
+    <script src="./disptime.js"></script>
+    <script src="./jscd.js"></script>
+    <script src="./force.js"></script>
+    <script src="./main.js"></script>
+    <style>
+        #stimulus_id {
+            font-size: 7.5vw;
+            font-family: Arial;
+            text-align: center;
+            font-weight: bolder;
+            position: fixed;
+            top: 35%;
+            left: 50%;
+            margin: 0 -50% 0 0;
+            transform: translate(-50%, -50%);
+        }
+
+        #btn_id {
+            display: none;
+            font-size: 5vw;
+            box-shadow: inset 0 2px 0 0 #B0B0B0;
+            border: 1px solid #dcdcdc;
+            border-radius: 5%;
+            top: 75%;
+            left: 50%;
+            height: 26%;
+            width: 16%;
+            text-align: center;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            background-color: #888888;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="stimulus_id"></div>
+
+    <div id="btn_id">
+    </div>
+
+    <div>
+        <div id="jscd_id">...</div>
+        <br>
+        <br>
+        <button id="dl_id" style="display:none;font-weight:bold;" type="button" onclick="dl_as_file();">download</button>
+    </div>
+
+    <div id="intro_id">
+        <input type="text" id="test_name" value="pilot"><br><br>
+        <button type="button" onclick="begin();"> Start </button>
+    </div>
+
+</body>
+
+</html>
