@@ -61,6 +61,7 @@ const get_force = function(recall) {
             // end trial, save data stringified
             full_force_data[trialnum] = trial_force_data.map(elem => {
                 elem[0] = Math.round(elem[0] * 100) / 100;
+                return(elem);
             });
             store_trial();
         } else {
