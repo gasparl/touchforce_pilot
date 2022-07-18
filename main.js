@@ -2,7 +2,7 @@
 
 // define global variables
 let date_time, jscd_text, listenkey, text_to_show, disp_start, disp_stop,
-    input_time, allstims;
+    input_time, allstims, f_name;
 let trialnum = 0,
     startclicked = false,
     waitTouch = true;
@@ -104,24 +104,9 @@ function store_trial() {
 // change rectangle color to blue to indicate experiment ending
 function ending() {
     console.log('THE END');
-    full_data += jscd_text + "\n" + JSON.stringify(full_force_data);
-    document.getElementById('dl_id').style.display = 'block';
-}
-
-// function to download (save) results data as a text file
-function dl_as_file() {
-    filename_to_dl = 'touchforce_pilot_' + document.getElementById("test_name").value + jscd.os + '_' +
+    'touchforce_pilot_' + document.getElementById("test_name").value + jscd.os + '_' +
         jscd.browser + '_' + date_time + '.txt';
-    data_to_dl = full_data;
-    let blobx = new Blob([data_to_dl], {
-        type: 'text/plain'
-    });
-    let elemx = window.document.createElement('a');
-    elemx.href = window.URL.createObjectURL(blobx);
-    elemx.download = filename_to_dl;
-    document.body.appendChild(elemx);
-    elemx.click();
-    document.body.removeChild(elemx);
+    full_data += jscd_text + "\n" + JSON.stringify(full_force_data);
 }
 
 // get readable current date and time
@@ -150,4 +135,50 @@ function shuffle(arr) {
         array[randomIndex] = temporaryValue;
     }
     return newarr;
+}
+
+// function to download (save) results data as a text file
+function dl_as_file() {
+    filename_to_dl = f_name;
+    data_to_dl = full_data;
+    let blobx = new Blob([data_to_dl], {
+        type: 'text/plain'
+    });
+    let elemx = window.document.createElement('a');
+    elemx.href = window.URL.createObjectURL(blobx);
+    elemx.download = filename_to_dl;
+    document.body.appendChild(elemx);
+    elemx.click();
+    document.body.removeChild(elemx);
+}
+
+
+// store data on server
+
+function upload() {
+    fetch('https://homepage.univie.ac.at/gaspar.lukacs/forcetouch_results/kb_id.php', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'text/plain'
+            },
+            body: JSON.stringify({
+                fname_post: f_name,
+                results_post: full_data
+            })
+        })
+        .then(response => response.text())
+        .then(echoed => {
+            console.log(echoed);
+            if (!echoed.startsWith("success")) {
+                document.getElementById('dl_id').textContent = "Thank you! (The data is successfully saved on the sever, you can close this page.)";
+            }
+            document.getElementById('dl_id').style.display = 'block';
+        })
+        .catch((error) => {
+            console.log('Request failed: ', error);
+            document.getElementById('pass_pre').style.color = 'red';
+            document.getElementById('pass_pre').innerHTML = 'Server connection failed! ' + error;
+            document.getElementById('div_end_error').style.display = 'block';
+        });
 }

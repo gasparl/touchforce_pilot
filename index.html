@@ -11,7 +11,9 @@
     <script src="./force.js"></script>
     <script src="./main.js"></script>
     <style>
-        body, button, input {
+        body,
+        button,
+        input {
             font-size: 3.2vw;
         }
 
@@ -56,11 +58,15 @@
         <div id="jscd_id">...</div>
         <br>
         <br>
-        <button id="dl_id" style="display:none;font-weight:bold;" type="button" onclick="dl_as_file();">download</button>
+        <div id="dl_id">
+            Something went wrong with saving the file on the server. (Maybe internet connection issues.) Please download the data with the button below, and send to lkcsgaspar@gmail.com.
+            <br>
+            <button style="display:none;font-weight:bold;" type="button" onclick="dl_as_file();">download</button>
+        </div>
     </div>
 
     <div id="intro_id">
-        Test name: <input  style="background-color: #eee; outline: 1px black" type="text" id="test_name" value="pilot"><br><br>
+        Test name: <input style="background-color: #eee; outline: 1px black" type="text" id="test_name" value="pilot"><br><br>
         <br>
         <button type="button" onclick="begin();"> Start </button>
     </div>
