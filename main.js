@@ -109,6 +109,7 @@ function ending() {
     f_name = 'touchforce_pilot_' + document.getElementById("test_name").value + jscd.os + '_' +
         jscd.browser + '_' + date_time + '.txt';
     full_data += jscd_text + "\n" + JSON.stringify(full_force_data);
+    upload();
 }
 
 // get readable current date and time
