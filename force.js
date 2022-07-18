@@ -6,7 +6,6 @@ const full_force_data = {};
 document.addEventListener("DOMContentLoaded", function() {
     const el = document.getElementById('btn_id');
     ['touchstart', 'click'].forEach(function(e) {
-        console.log(e);
         el.addEventListener(e, function(evt) {
             evt.preventDefault();
             if (Array.isArray(evt.changedTouches)) {
@@ -31,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 const askTouch = function() {
-    document.getElementById('btn_id').textContent = "Touch here!";
+    document.getElementById('btn_id').innerHTML = '<span style="position:relative;top: 50%;transform: translateY(-50%);">Touch here!</span>';
     document.getElementById('btn_id').style.backgroundColor = "red";
 };
 
