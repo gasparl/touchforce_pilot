@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 const askTouch = function() {
-    document.getElementById('btn_id').innerHTML = 'Touch here!';
+    document.getElementById('btn_id').innerHTML = '<br>Touch here!';
     document.getElementById('btn_id').style.backgroundColor = "red";
 };
 
