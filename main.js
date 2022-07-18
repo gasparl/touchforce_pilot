@@ -33,7 +33,7 @@ function begin() {
             ssd: i * 30
         });
     }
-    allstims = fruits.slice(0, 2).concat(shuffle(allstims));
+    allstims = allstims.slice(0, 2).concat(shuffle(allstims));
     document.getElementById('intro_id').style.display = 'none';
     document.getElementById('btn_id').style.display = 'block';
 }
