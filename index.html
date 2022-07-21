@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
-    <title>JS Display Time Measure</title>
+    <link rel="icon" type="image/png" href="lgo.png">
+    <title>iPhone 3D Touch study</title>
     <meta charset="utf-8">
     <meta name="author" content="Gaspar Lukacs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no,maximum-scale=1">
@@ -21,7 +21,16 @@
 
         button,
         input {
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 20px;
+        }
+
+        .longtext {
+            width: 80%;
+            margin: auto;
+            text-align: justify;
         }
 
         #stimulus_id {
@@ -36,8 +45,7 @@
             transform: translate(-50%, -50%);
         }
 
-        #btn_id {
-            display: none;
+        .btn_class {
             font-size: 22px;
             box-shadow: inset 0 2px 0 0 #B0B0B0;
             border: 1px solid #dcdcdc;
@@ -56,27 +64,115 @@
 
 <body>
 
-    <div id="stimulus_id"></div>
+    <div id="pretest_id" class="longtext">
+        Please press the button below to start.
 
-    <div id="btn_id">
+        <div id="btn_test_id" class="btn_class">
+        </div>
+
     </div>
 
-    <div>
-        <div id="jscd_id">...</div>
-        <div id="force_id">...</div>
+    <div id="cancel_id" class="longtext"  style="display:none;">
+        We could not detect 3D Touch on your device. As explained in the description, to participate in this study, you must have <i>3D Touch</i> enabled and working (supported on: iPhone 6S; 6S Plus; 7; 7 Plus; 8; 8 Plus; X; XS; or XS
+        Max).
+        <br><br>
+        If you believe that this is mistake on our part, please email lkcsgaspar@gmail.com.
+        <br><br>
+        Otherwise, <b>please return you submission</b>. (See <a href='https://participant-help.prolific.co/hc/en-gb/articles/360022342094-How-do-I-withdraw-my-participation-in-a-study-' target='_blank'>here</a> for instructions.)
+
+    </div>
+
+    <div id="intro_id" class="longtext" style="display:none;">
+        <h1>Information and Consent</h1>
+
+        <p><b>Aim:</b>
+            <br>We are checking how we can record "touch force" data with the 3D Touch technology on certain iPhones. Later on we might be able to use this for interesting psychological measurements.
+        </p>
+
+        <p><b>Payment:</b>
+            <br>
+            The task takes around 2-3 minutes.
+            <span id="pay_info">
+                <b>
+                    We could not detect your Prolific ID!
+                </b> Therefore we will assume that this is a voluntary testing and you will not receive payment. If you are trying to do this test as a job via Prolific and want to be
+                compensated, you should open the proper link provided.
+            </span>
+        </p>
+
+        <p><b>Rights:</b>
+            <br>You can stop participating in the study at any time without giving a reason (by closing or refreshing this website). In this case, all recorded data will be fully deleted.
+            <br>This application was tested thoroughly, but we cannot guarantee that it will correctly work with your specific iPhone and iOS technology. Please contact lkcsgaspar@gmail.com if you run into any trouble.
+        </p>
+
+        <p><b>Anonymity and Privacy:</b>
+            <br>The results of the study (touch force data) are used and published for research purposes. The data do not provide any information about you personally. Your identity will be kept strictly confidential.
+        </p>
+
+        <p><b>Consent:</b>
+            <br>By clicking the "Consent & Continue" button, you declare that you have read and understood the information above. You confirm that you will be concentrating on the task and complete it to the best of your abilities.
+        </p>
+        <br>
+
+        <button type="button" onclick="document.getElementById('intro_id').style.display = 'none';document.getElementById('instructions_id').style.display = 'block';">
+            Consent & Continue
+        </button>
+    </div>
+
+    <div id="instructions_id" class="longtext" style="display:none;">
+
+        <h1>Instructions</h1>
+
+        <p>
+            During the task, you will see a button on the screen like the one below.
+        </p>
+
+        <div class="btn_class" style="position: relative;transform:none;">
+        </div>
+
+        <p>
+            Please hold one of your fingers on this button throughout the task. (If you lift your finger from the screen e.g. by accident, the task will pause and a warning message will appear. The task continues as soon as you put your finger back.)
+        </p>
+
+        <p>
+            Each one or two seconds, there will be a message "Press!" Whenever you see this message, please shortly press down on the screen (with the finger that you hold on the button), as if you were pressing a key.
+        </p>
+
+        <p>
+            Sometimes, quickly immediately after the "Press!" message, a "STOP!" message will appear. In that case, try not to press down (or, if already started, stop your press as soon as you can). Don't worry if you can't stop in time, it's
+            normal.
+        </p>
+
+
+        <p>
+            This task starts right after you tap <b>Start</b> below, so make sure you read and understood the instructions above. The "Press!" messages will begin to appear as soon as you place your finger on the touch button on the next screen.
+        </p>
+
+        <button type="button" onclick='begin();'>Start</button>
+    </div>
+
+    <div id="task_id" style="display:none;">
+
+        <div id="stimulus_id"></div>
+
+        <div id="btn_id" class="btn_class">
+        </div>
+
+        <!--
+        <div id="jscd_id"></div>
+        <div id="force_id"></div>
+        -->
+    </div>
+
+    <div id="end_id" class="longtext" style="display:none;">
         <br>
         <br>
-        <div id="dl_id" style="display:none;width:80%">
+        <br>
+        <div id="dl_id">
             Something went wrong with saving the file on the server. (Maybe internet connection issues.) Please download the data with the button below, and send to lkcsgaspar@gmail.com.
             <br>
             <button style="font-weight:bold;" type="button" onclick="dl_as_file();">download</button>
         </div>
-    </div>
-
-    <div id="intro_id">
-        Test name: <input style="background-color: #eee; outline: 1px black" type="text" id="test_name" value="pilot"><br><br>
-        <br>
-        <button type="button" onclick="begin();"> Start </button>
     </div>
 
 </body>

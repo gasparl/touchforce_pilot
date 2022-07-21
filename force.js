@@ -4,14 +4,33 @@ let touchnow, trial_force_data, ongoingTouch = {};
 const full_force_data = {};
 
 document.addEventListener("DOMContentLoaded", function() {
+
+    const el1 = document.getElementById('btn_test_id');
+    el1.addEventListener('touchstart', function(evt) {
+        evt.preventDefault();
+        if (Array.isArray(evt.changedTouches)) {
+            ongoingTouch = copyTouch(evt.changedTouches[0]);
+        }
+        if (ongoingTouch.force === undefined) {
+            // give force a second chance
+            setTimeout(() => {
+                if (ongoingTouch.force === undefined) {
+                    document.getElementById('pretest_id').style.display = 'none';
+                    document.getElementById('cancel_id').style.display = 'block';
+                } else {
+                    go();
+                }
+            }, 20);
+        } else {
+            go();
+        }
+    });
     const el = document.getElementById('btn_id');
     ['touchstart', 'click'].forEach(function(e) {
         el.addEventListener(e, function(evt) {
             evt.preventDefault();
             if (Array.isArray(evt.changedTouches)) {
                 ongoingTouch = copyTouch(evt.changedTouches[0]);
-            } else {
-                document.getElementById('btn_id').textContent = "Touch force not supported.";
             }
             document.getElementById('btn_id').textContent = "";
             document.getElementById('btn_id').style.backgroundColor = "#888888";
@@ -27,11 +46,17 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    setInterval(function() {
-        document.getElementById('force_id').textContent = 'Force: ' + ongoingTouch.force;
-    }, 300);
+    // setInterval(function() {
+    //     document.getElementById('force_id').textContent = 'force: ' + ongoingTouch.force;
+    // }, 200);
 
 });
+
+const go = function() {
+    ongoingTouch = {};
+    document.getElementById('pretest_id').style.display = 'none';
+    document.getElementById('intro_id').style.display = 'block';
+};
 
 const askTouch = function() {
     document.getElementById('btn_id').innerHTML = '<br>Touch here!';

@@ -8,15 +8,16 @@ let trialnum = 0,
     waitTouch = true;
 
 document.addEventListener("DOMContentLoaded", function() {
+    userid_check();
     // define a small information box for continually updated info about the ongoing trials
     let heads = ["os", "os_v", "browser", "browser_v", "screen"];
     let cols = [jscd.os, jscd.osVersion, jscd.browser, jscd.browserVersion, jscd.screen];
-    let jscd_show = heads.map(function(hed, ind) {
-        return ('<br>' + hed + ': <b>' + cols[ind] + '</b>');
-    });
+    // let jscd_show = heads.map(function(hed, ind) {
+    //     return ('<br>' + hed + ': <b>' + cols[ind] + '</b>');
+    // });
     date_time = neat_date();
     jscd_text = 'client\t' + heads.join('/') + '\t' + cols.join('/');
-    document.getElementById('jscd_id').innerHTML = jscd_show;
+    //document.getElementById('jscd_id').innerHTML = jscd_show;
 });
 
 function begin() {
@@ -34,8 +35,8 @@ function begin() {
         });
     }
     allstims = allstims.slice(0, 2).concat(shuffle(allstims));
-    document.getElementById('intro_id').style.display = 'none';
-    document.getElementById('btn_id').style.display = 'block';
+    document.getElementById('instructions_id').style.display = 'none';
+    document.getElementById('task_id').style.display = 'block';
 }
 
 function next_trial() {
@@ -103,11 +104,10 @@ function store_trial() {
 
 // change rectangle color to blue to indicate experiment ending
 function ending() {
-    document.getElementById('stimulus_id').style.display = 'none';
-    document.getElementById('btn_id').style.display = 'none';
+    document.getElementById('task_id').style.display = 'none';
     console.log('THE END');
-    f_name = 'touchforce_pilot_' + document.getElementById("test_name").value + '_' + jscd.os + '_' +
-        jscd.browser + '_' + date_time + '.txt';
+    f_name = 'touchforce_pilot_' + jscd.os + '_' +
+        jscd.browser + '_' + date_time + '_' + userid + '.txt';
     full_data += jscd_text + "\n" + JSON.stringify(full_force_data);
     upload();
 }
@@ -155,6 +155,18 @@ function dl_as_file() {
     document.body.removeChild(elemx);
 }
 
+function userid_check() {
+    window.params = new URLSearchParams(location.search);
+    window.userid = params.get('PROLIFIC_PID');
+    if (userid != null) {
+        document.getElementById('pay_info').textContent = "Completed and valid participation will be rewarded with 0.40 GBP via Prolific.";
+        if (userid.startsWith("GL")) {
+            go();
+        }
+    } else {
+        window.userid = "noid";
+    }
+}
 
 // store data on server
 
@@ -173,15 +185,13 @@ function upload() {
         .then(response => response.text())
         .then(echoed => {
             console.log(echoed);
-            if (!echoed.startsWith("success")) {
-                document.getElementById('dl_id').textContent = "Thank you! (The data is successfully saved on the sever, you can close this page.)";
+            if (echoed.startsWith("http")) {
+                document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> <a href='" + echoed + "' target='_blank'>" + echoed + "</a><br><br>(The data is successfully saved on the sever, you can close this page.)";
             }
-            document.getElementById('dl_id').style.display = 'block';
+            document.getElementById('end_id').style.display = 'block';
         })
         .catch((error) => {
             console.log('Request failed: ', error);
-
-            document.getElementById('dl_id').textContent = "Thank you! (The data is successfully saved on the sever, you can close this page.)";
-            document.getElementById('dl_id').style.display = 'block';
+            document.getElementById('end_id').style.display = 'block';
         });
 }
