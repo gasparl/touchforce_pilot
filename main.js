@@ -27,11 +27,11 @@ function begin() {
     DT.loopOn();
 
     askTouch();
-    allstims = new Array(28).fill({
+    allstims = new Array(20).fill({
         item: "go",
         ssd: 0
     });
-    for (var i = 1; i < 11; i++) {
+    for (var i = 1; i < 8; i++) {
         allstims.push({
             item: "stop",
             ssd: i * 30
@@ -190,7 +190,7 @@ function upload() {
         .then(echoed => {
             console.log(echoed);
             if (echoed.startsWith("http")) {
-                document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> <a href='" + echoed + "' target='_blank'>" + echoed + "</a><br><br>(The data is successfully saved on the sever, you can close this page.)";
+                document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> <a href='" + echoed + "' target='_blank'>" + echoed + "</a><br><br>(The data was successfully saved on the sever, you can close this page.)";
             }
             if (document.getElementById('cancel_id').style.display !== 'block') {
                 document.getElementById('end_id').style.display = 'block';
