@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function() {
     //     return ('<br>' + hed + ': <b>' + cols[ind] + '</b>');
     // });
     date_time = neat_date();
+    heads.push("start");
+    cols.push(DT.now());
     jscd_text = 'client\t' + heads.join('/') + '\t' + cols.join('/');
     //document.getElementById('jscd_id').innerHTML = jscd_show;
 });
@@ -42,10 +44,10 @@ function begin() {
 function next_trial() {
     document.getElementById('stimulus_id').textContent = '+';
     setTimeout(function() {
-        // if (ongoingTouch.force === undefined) {
-        //     waitTouch = true;
-        //     return;
-        // }
+        if (document.getElementById('btn_id').style.backgroundColor == "red") {
+            waitTouch = true;
+            return;
+        }
         trialnum++;
         disp_start = "NA";
         disp_stop = "NA";
