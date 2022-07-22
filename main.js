@@ -42,10 +42,10 @@ function begin() {
 function next_trial() {
     document.getElementById('stimulus_id').textContent = '+';
     setTimeout(function() {
-        if (false && ongoingTouch.force === undefined) {
-            waitTouch = true;
-            return;
-        }
+        // if (ongoingTouch.force === undefined) {
+        //     waitTouch = true;
+        //     return;
+        // }
         trialnum++;
         disp_start = "NA";
         disp_stop = "NA";

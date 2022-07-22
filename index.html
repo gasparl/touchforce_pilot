@@ -19,12 +19,12 @@
             height: 100%;
         }
 
-        button,
-        input {
+        button {
+            padding: 20px;
             position: relative;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 20px;
+            font-size: 30px;
         }
 
         .longtext {
@@ -65,14 +65,15 @@
 <body>
 
     <div id="pretest_id" class="longtext">
-        Please press the button below to start.
-
+        Please press the button below (using iPhone 3D Touch) to start.
+        <span id="feed"></span>
+        
         <div id="btn_test_id" class="btn_class">
         </div>
 
     </div>
 
-    <div id="cancel_id" class="longtext"  style="display:none;">
+    <div id="cancel_id" class="longtext" style="display:none;">
         We could not detect 3D Touch on your device. As explained in the description, to participate in this study, you must have <i>3D Touch</i> enabled and working (supported on: iPhone 6S; 6S Plus; 7; 7 Plus; 8; 8 Plus; X; XS; or XS
         Max).
         <br><br>
@@ -83,7 +84,7 @@
     </div>
 
     <div id="intro_id" class="longtext" style="display:none;">
-        <h1>Information and Consent</h1>
+        <h1>Information</h1>
 
         <p><b>Aim:</b>
             <br>We are checking how we can record "touch force" data with the 3D Touch technology on certain iPhones. Later on we might be able to use this for interesting psychological measurements.
@@ -114,9 +115,11 @@
         </p>
         <br>
 
-        <button type="button" onclick="document.getElementById('intro_id').style.display = 'none';document.getElementById('instructions_id').style.display = 'block';">
+        <button type="button" onclick="document.getElementById('intro_id').style.display = 'none';window.scrollTo(0, 0);document.getElementById('instructions_id').style.display = 'block';">
             Consent & Continue
         </button>
+        <br>
+        <br>
     </div>
 
     <div id="instructions_id" class="longtext" style="display:none;">
@@ -149,6 +152,8 @@
         </p>
 
         <button type="button" onclick='begin();'>Start</button>
+        <br>
+        <br>
     </div>
 
     <div id="task_id" style="display:none;">

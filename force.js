@@ -5,43 +5,63 @@ const full_force_data = {};
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    const el1 = document.getElementById('btn_test_id');
+    const elTEST = document.getElementById('btn_test_id');
+    elTEST.addEventListener('touchstart', function(evt) {
+        evt.preventDefault();
+
+        document.getElementById('feed').textContent = 'force: ' + evt.changedTouches[0].force + " sceen: " + evt.changedTouches[0].screenX;
+
+        setInterval(function() {
+            document.getElementById('feed').textContent = 'force: ' + evt.touches[0].force + " sceen: " + evt.touches[0].screenX;
+        }, 500);
+
+    });
+
+
+    const el1 = document.getElementById('btn_id');
     el1.addEventListener('touchstart', function(evt) {
         evt.preventDefault();
-        if (Array.isArray(evt.changedTouches)) {
+        if (typeof evt.changedTouches === 'object' &&
+            evt.changedTouches !== null) {
             ongoingTouch = copyTouch(evt.changedTouches[0]);
         }
-        if (ongoingTouch.force === undefined) {
+        if (evt.changedTouches[0].force === 0) {
+            go();
+        } else {
             // give force a second chance
             setTimeout(() => {
-                if (ongoingTouch.force === undefined) {
+                if (evt.touches[0].force === undefined) {
                     document.getElementById('pretest_id').style.display = 'none';
                     document.getElementById('cancel_id').style.display = 'block';
                 } else {
                     go();
                 }
-            }, 20);
-        } else {
-            go();
+            }, 30);
         }
     });
     const el = document.getElementById('btn_id');
-    ['touchstart', 'click'].forEach(function(e) {
-        el.addEventListener(e, function(evt) {
-            evt.preventDefault();
-            if (Array.isArray(evt.changedTouches)) {
-                ongoingTouch = copyTouch(evt.changedTouches[0]);
-            }
-            document.getElementById('btn_id').textContent = "";
-            document.getElementById('btn_id').style.backgroundColor = "#888888";
-            if (waitTouch === true) {
-                waitTouch = false;
-                next_trial();
-            }
-        });
+    el.addEventListener('touchstart', function(evt) {
+        evt.preventDefault();
+        if (typeof evt.changedTouches === 'object' &&
+            evt.changedTouches !== null) {
+            ongoingTouch = evt.changedTouches[0];
+        }
+        document.getElementById('btn_id').textContent = "";
+        document.getElementById('btn_id').style.backgroundColor = "#888888";
+        if (waitTouch === true) {
+            waitTouch = false;
+            next_trial();
+        }
     });
     ['touchend', 'touchcancel', 'mouseleave'].forEach(function(e) {
         el.addEventListener(e, function(evt) {
+            console.log("out");
+            console.log(ongoingTouch.force);
+            console.log(ongoingTouch.screenX);
+            setTimeout(() => {
+                console.log(ongoingTouch.force);
+                console.log(ongoingTouch.screenX);
+            }, 50);
             askTouch();
         });
     });
