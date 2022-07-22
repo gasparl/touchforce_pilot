@@ -1,21 +1,76 @@
 /*jshint esversion: 6 */
 
+function onTouchStart(e) {
+    e.preventDefault();
+    checkForce(e);
+}
+
+function onTouchMove(e) {
+    e.preventDefault();
+    checkForce(e);
+}
+
+function onTouchEnd(e) {
+    e.preventDefault();
+    setTimeout(renderElement.bind(null, 0), 10);
+    touch = null;
+}
+
+// use timeout-based method only on devices not supporting ontouchforcechange
+function checkForce(e) {
+    if ('ontouchforcechange' in document === false) {
+        touch = e.touches[0];
+        setTimeout(refreshForceValue.bind(touch), 10);
+    }
+}
+
+// the maximum force value of a touch event is 1
+function onTouchForceChange(e) {
+    renderElement(e.changedTouches[0].screenX);
+}
+
+// the maximum force value of a click event is 3
+function onClickForceChange(e) {
+    renderElement(e.webkitForce / 3);
+}
+
+// iOS versions lower than iOS 10 do not support the touchforcechange event, so refresh manually
+function refreshForceValue() {
+    var touchEvent = this;
+    var forceValue = 0;
+    if (touchEvent) {
+        forceValue = touchEvent.screenX || 0;
+        setTimeout(refreshForceValue.bind(touch), 10);
+    } else {
+        forceValue = 0;
+    }
+
+    renderElement(forceValue);
+}
+
+function renderElement(val) {
+    document.getElementById('feed').textContent = 'force..: ' + val;
+}
+
+
 let touchnow, trial_force_data, ongoingTouch = {};
 const full_force_data = {};
 
 document.addEventListener("DOMContentLoaded", function() {
 
+
     const elTEST = document.getElementById('btn_test_id');
-    elTEST.addEventListener('touchstart', function(evt) {
-        evt.preventDefault();
-
-        document.getElementById('feed').textContent = 'force: ' + evt.changedTouches[0].force + " sceen: " + evt.changedTouches[0].screenX;
-
-        setInterval(function() {
-            document.getElementById('feed').textContent = 'force: ' + evt.touches[0].force + " sceen: " + evt.touches[0].screenX;
-        }, 500);
-
-    });
+    elTEST.addEventListener('touchstart', onTouchStart, false);
+    // elTEST.addEventListener('touchstart', function(evt) {
+    //     // evt.preventDefault();
+    //     //
+    //     // document.getElementById('feed').textContent = 'force: ' + evt.changedTouches[0].force + " sceen: " + evt.changedTouches[0].screenX;
+    //     //
+    //     // setInterval(function() {
+    //     //     document.getElementById('feed').textContent = 'force: ' + evt.touches[0].force + " sceen: " + evt.touches[0].screenX;
+    //     // }, 500);
+    //
+    // });
 
 
     const el1 = document.getElementById('btn_id');
