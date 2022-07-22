@@ -5,7 +5,8 @@ let date_time, jscd_text, listenkey, text_to_show, disp_start, disp_stop,
     input_time, allstims, f_name;
 let trialnum = 0,
     startclicked = false,
-    waitTouch = true;
+    waitTouch = true,
+    userid = "noid";
 
 document.addEventListener("DOMContentLoaded", function() {
     userid_check();
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // });
     date_time = neat_date();
     heads.push("start");
-    cols.push(DT.now());
+    cols.push(Math.round(DT.now() * 100) / 100);
     jscd_text = 'client\t' + heads.join('/') + '\t' + cols.join('/');
     //document.getElementById('jscd_id').innerHTML = jscd_show;
 });
@@ -45,6 +46,7 @@ function next_trial() {
     document.getElementById('stimulus_id').textContent = '+';
     setTimeout(function() {
         if (document.getElementById('btn_id').style.backgroundColor == "red") {
+            console.log('Failed trial.');
             waitTouch = true;
             return;
         }
@@ -159,14 +161,14 @@ function dl_as_file() {
 
 function userid_check() {
     window.params = new URLSearchParams(location.search);
-    window.userid = params.get('PROLIFIC_PID');
+    userid = params.get('PROLIFIC_PID');
     if (userid != null) {
         document.getElementById('pay_info').textContent = "Completed and valid participation will be rewarded with 0.40 GBP via Prolific.";
         if (userid.startsWith("GL")) {
             go();
         }
     } else {
-        window.userid = "noid";
+        userid = "noid";
     }
 }
 
@@ -190,10 +192,14 @@ function upload() {
             if (echoed.startsWith("http")) {
                 document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> <a href='" + echoed + "' target='_blank'>" + echoed + "</a><br><br>(The data is successfully saved on the sever, you can close this page.)";
             }
-            document.getElementById('end_id').style.display = 'block';
+            if (document.getElementById('cancel_id').style.display !== 'block') {
+                document.getElementById('end_id').style.display = 'block';
+            }
         })
         .catch((error) => {
             console.log('Request failed: ', error);
-            document.getElementById('end_id').style.display = 'block';
+            if (document.getElementById('cancel_id').style.display !== 'block') {
+                document.getElementById('end_id').style.display = 'block';
+            }
         });
 }
