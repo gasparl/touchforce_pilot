@@ -11,8 +11,8 @@ let trialnum = 0,
 document.addEventListener("DOMContentLoaded", function() {
     userid_check();
     // define a small information box for continually updated info about the ongoing trials
-    let heads = ["os", "os_v", "browser", "browser_v", "screen"];
-    let cols = [jscd.os, jscd.osVersion, jscd.browser, jscd.browserVersion, jscd.screen];
+    let heads = ["os", "os_v", "browser", "browser_v", "screen", "GlRenderer", "Resolution", "Model"];
+    let cols = [jscd.os, jscd.osVersion, jscd.browser, jscd.browserVersion, jscd.screen, MobileDevice.getGlRenderer(), MobileDevice.getResolution(), MobileDevice.getModels().join(' or ')];
     // let jscd_show = heads.map(function(hed, ind) {
     //     return ('<br>' + hed + ': <b>' + cols[ind] + '</b>');
     // });
