@@ -175,7 +175,13 @@ function userid_check() {
 // store data on server
 
 function upload() {
-    fetch('https://homepage.univie.ac.at/gaspar.lukacs/forcetouch_results/force.php', {
+    document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> ...<br><br>(The data was successfully saved on the sever, you can close this page.)";
+    return;
+}
+
+
+function uploadOriginal() {
+    fetch('https://homepage.univie.ac.at/gaspar.lukacs/touchforce_results/force.php', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',

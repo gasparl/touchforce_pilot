@@ -19,17 +19,17 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // start check
-    let toadd = "";
-    if (jscd.browser !== "Safari") {
-        toadd = "The problem could be that you are not using Safari browser. (We detected " + jscd.browser + ".)";
-    } else if (parseInt(jscd.browserVersion) < 10) {
-        toadd = "The problem could be that your Safari browser version is outdated. (We detected " + jscd.browserVersion + ", while it should be at least 10.0).";
-    }
-    document.getElementById('extra_info').textContent = toadd;
-    if (!('ontouchforcechange' in window.document)) {
-        cancel();
-        return;
-    }
+    // let toadd = "";
+    // if (jscd.browser !== "Safari") {
+    //     toadd = "The problem could be that you are not using Safari browser. (We detected " + jscd.browser + ".)";
+    // } else if (parseInt(jscd.browserVersion) < 10) {
+    //     toadd = "The problem could be that your Safari browser version is outdated. (We detected " + jscd.browserVersion + ", while it should be at least 10.0).";
+    // }
+    // document.getElementById('extra_info').textContent = toadd;
+    // if (!('ontouchforcechange' in window.document)) {
+    //     cancel();
+    //     return;
+    // }
     const el1 = document.getElementById('btn_test_id');
     el1.addEventListener('touchstart', function(evt) {
         evt.preventDefault();
