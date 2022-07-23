@@ -176,6 +176,7 @@ function userid_check() {
 
 function upload() {
     document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> ...<br><br>(The data was successfully saved on the sever, you can close this page.)";
+    document.getElementById('end_id').style.display = 'block';
     return;
 }
 
