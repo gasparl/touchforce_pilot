@@ -70,11 +70,12 @@ function next_trial() {
             //console.log('Failed trial (no touch).');
             next_trial();
             return;
-        } else if (document.getElementById('btn_id_left').classList.contains("pressd") || document.getElementById('btn_id_right').classList.contains("pressd")) {
-            document.getElementById('lighten').style.display = 'block';
-            //console.log('Failed trial (press in progress).');
-            next_trial();
-            return;
+        // commented out for demo
+        // } else if (document.getElementById('btn_id_left').classList.contains("pressd") || document.getElementById('btn_id_right').classList.contains("pressd")) {
+        //     document.getElementById('lighten').style.display = 'block';
+        //     //console.log('Failed trial (press in progress).');
+        //     next_trial();
+        //     return;
         } else {
             document.getElementById('lighten').style.display = 'none';
         }
@@ -238,14 +239,14 @@ function userid_check() {
 
 // store data on server
 
-// function upload() {
-//     document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> ...<br><br>(The data was successfully saved on the sever, you can close this page.)";
-//     document.getElementById('end_id').style.display = 'block';
-//     return;
-// }
-
-
 function upload() {
+    document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> [...] <br><br>(The data was successfully saved on the sever, you can close this page.)";
+    document.getElementById('end_id').style.display = 'block';
+    return;
+}
+
+
+function uploadOriginal() {
     fetch('https://homepage.univie.ac.at/gaspar.lukacs/touchforce_results/force.php', {
             method: 'post',
             headers: {

@@ -48,12 +48,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     document.getElementById('extra_info').textContent = toadd;
 
-    // comment out for testing
-    if (!('ontouchforcechange' in window.document)) {
-        cancel();
-        return;
-    }
-    // go(); // for testing
+    // comment out for demo
+    // if (!('ontouchforcechange' in window.document)) {
+    //     cancel();
+    //     return;
+    // }
+    go(); // for demo
 
     const el1 = document.getElementById('btn_test_id');
     el1.addEventListener('touchstart', function(evt) {
