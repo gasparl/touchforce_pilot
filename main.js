@@ -5,8 +5,9 @@ let date_time, jscd_text, listenkey, text_to_show, disp_start, disp_stop,
     input_time, allstims, f_name;
 let trialnum = 0,
     startclicked = false,
-    waitTouch = true,
-    userid = "noid";
+    userid = "noid",
+    phase = "practice",
+    listen = false;
 
 document.addEventListener("DOMContentLoaded", function() {
     userid_check();
@@ -20,59 +21,99 @@ document.addEventListener("DOMContentLoaded", function() {
     heads.push("start");
     cols.push(Math.round(DT.now() * 100) / 100);
     jscd_text = 'client\t' + heads.join('/') + '\t' + cols.join('/');
-    //document.getElementById('jscd_id').innerHTML = jscd_show;
 });
 
 function begin() {
+    document.getElementById('lighten').style.display = 'none';
     DT.loopOn();
-
-    askTouch();
-    allstims = new Array(20).fill({
-        item: "go",
+    ['btn_id_left', 'btn_id_right'].forEach((id) => {
+        document.getElementById(id).innerHTML = '<br>Touch here!';
+        document.getElementById(id).style.backgroundColor = "red";
+    });
+    let reps = 5;
+    if (phase == "main") {
+        reps = 10;
+    }
+    allstims = new Array(reps).fill({
+        item: "→",
         ssd: 0
     });
-    for (var i = 1; i < 8; i++) {
+    for (let i = 0; i < reps; i++) {
         allstims.push({
-            item: "stop",
-            ssd: i * 30
+            item: "←",
+            ssd: 0
         });
     }
-    allstims = allstims.slice(0, 2).concat(shuffle(allstims));
+    if (phase == "main") {
+        [100, 150, 200, 250, 300].forEach((ssd_it) => {
+            allstims.push({
+                item: "→",
+                ssd: ssd_it
+            });
+            allstims.push({
+                item: "←",
+                ssd: ssd_it
+            });
+        });
+    }
+    allstims = shuffle(allstims);
     document.getElementById('instructions_id').style.display = 'none';
+    document.getElementById('instructions2_id').style.display = 'none';
     document.getElementById('task_id').style.display = 'block';
+    next_trial();
 }
 
 function next_trial() {
-    document.getElementById('stimulus_id').textContent = '+';
     setTimeout(function() {
-        if (document.getElementById('btn_id').style.backgroundColor == "red") {
-            console.log('Failed trial.');
-            waitTouch = true;
+        if (document.getElementById('btn_id_left').style.backgroundColor == "red" ||
+            document.getElementById('btn_id_right').style.backgroundColor == "red") {
+            //console.log('Failed trial (no touch).');
+            next_trial();
             return;
+        } else if (document.getElementById('btn_id_left').classList.contains("pressd") || document.getElementById('btn_id_right').classList.contains("pressd")) {
+            document.getElementById('lighten').style.display = 'block';
+            //console.log('Failed trial (press in progress).');
+            next_trial();
+            return;
+        } else {
+            document.getElementById('lighten').style.display = 'none';
         }
-        trialnum++;
-        disp_start = "NA";
-        disp_stop = "NA";
-        current_stim = allstims.shift(); // get next stimulus dictionary
-        console.log(current_stim); // print info
-        start_force();
-        setTimeout(function() {
-            requestAnimationFrame(function(stamp) {
-                document.getElementById('stimulus_id').textContent = "Press!";
-                disp_start = stamp; // the crucial (start) JS-timing
-                if (current_stim.item == "stop") {
-                    setTimeout(function() {
-                        requestAnimationFrame(function(stamp2) {
-                            document.getElementById('stimulus_id').textContent = 'STOP!';
-                            disp_stop = stamp2;
-                        });
 
-                    }, current_stim.ssd - 8);
-                }
-            });
-        }, 100);
-    }, randomdigit(800, 1200));
+        setTimeout(runtrial, randomdigit(400, 900));
+
+    }, 100);
 }
+
+const runtrial = function() {
+    listen = false;
+    document.getElementById('stimulus_id').textContent = '+';
+    trialnum++;
+    disp_start = "NA";
+    disp_stop = "NA";
+    current_stim = allstims.shift(); // get next stimulus dictionary
+    console.log(current_stim); // print info
+
+    requestAnimationFrame(function(stamp) {
+        document.getElementById('stimulus_id').textContent = current_stim.item;
+        disp_start = stamp; // the crucial (start) JS-timing
+        if (current_stim.ssd > 0) {
+            setTimeout(function() {
+                requestAnimationFrame(function(stamp2) {
+                    document.getElementById('stop_id').textContent = 'STOP!';
+                    disp_stop = stamp2;
+                });
+
+            }, current_stim.ssd - 8);
+        }
+        if (phase === "practice") {
+            listen = true;
+        } else {
+            setTimeout(function() {
+                store_trial();
+            }, 800);
+        }
+    });
+};
 
 const randomdigit = function(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -82,35 +123,58 @@ const randomdigit = function(min, max) {
 
 // column names for the data to be saved
 let full_data = [
-    "datetime",
+    "datetime_id",
+    "phase",
     "trial_number",
     "type",
     "ssd",
     "disp_start",
-    "disp_stop"
+    "disp_stop",
+    "time_now"
 ].join('\t') + '\n';
 
 function store_trial() {
+    document.getElementById('stimulus_id').textContent = '+';
+    document.getElementById('stop_id').textContent = '';
     full_data += [
         date_time,
+        phase,
         trialnum,
         current_stim.item,
         current_stim.ssd,
         disp_start,
-        disp_stop
+        disp_stop,
+        Math.round(DT.now() * 100) / 100
     ].join('\t') + '\n';
     if (allstims.length > 0) {
         next_trial();
+    } else if (phase === "practice") {
+        setTimeout(function() {
+            document.getElementById('contain1').style.display = 'none';
+            document.getElementById('contain2').style.display = 'none';
+            phase = "main";
+            document.getElementById('task_id').style.display = 'none';
+            document.getElementById('instructions2_id').style.display = 'block';
+        }, 500);
     } else {
-        ending();
+        setTimeout(ending, 500);
     }
+
 }
 
 // change rectangle color to blue to indicate experiment ending
 function ending() {
+    full_force_data.left = full_force_data.left.map(elem => {
+        elem[0] = Math.round(elem[0] * 100) / 100;
+        return (elem);
+    });
+    full_force_data.right = full_force_data.right.map(elem => {
+        elem[0] = Math.round(elem[0] * 100) / 100;
+        return (elem);
+    });
     document.getElementById('task_id').style.display = 'none';
     console.log('THE END');
-    f_name = 'touchforce_pilot_' + jscd.os + '_' +
+    f_name = 'touchforce_pilot2_' + jscd.os + '_' +
         jscd.browser + '_' + date_time + '_' + userid + '.txt';
     full_data += jscd_text + "\n" + JSON.stringify(full_force_data);
     upload();
@@ -174,14 +238,14 @@ function userid_check() {
 
 // store data on server
 
+// function upload() {
+//     document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> ...<br><br>(The data was successfully saved on the sever, you can close this page.)";
+//     document.getElementById('end_id').style.display = 'block';
+//     return;
+// }
+
+
 function upload() {
-    document.getElementById('end_id').innerHTML = "That's all, thank you! <h3>Please use the following Prolific completion link:</h3> ...<br><br>(The data was successfully saved on the sever, you can close this page.)";
-    document.getElementById('end_id').style.display = 'block';
-    return;
-}
-
-
-function uploadOriginal() {
     fetch('https://homepage.univie.ac.at/gaspar.lukacs/touchforce_results/force.php', {
             method: 'post',
             headers: {

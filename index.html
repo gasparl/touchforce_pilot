@@ -11,70 +11,25 @@
     <script src="./jscd.js"></script>
     <script src="./main.js"></script>
     <script src="./force.js"></script>
-    <style>
-        body {
-            font-size: 16px;
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        button {
-            padding: 20px;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 30px;
-        }
-
-        .longtext {
-            width: 80%;
-            margin: auto;
-            text-align: justify;
-        }
-
-        #stimulus_id {
-            font-size: 35px;
-            font-family: Arial;
-            text-align: center;
-            font-weight: bolder;
-            position: fixed;
-            top: 45%;
-            left: 50%;
-            margin: 0 -50% 0 0;
-            transform: translate(-50%, -50%);
-        }
-
-        .btn_class {
-            font-size: 22px;
-            box-shadow: inset 0 2px 0 0 #B0B0B0;
-            border: 1px solid #dcdcdc;
-            border-radius: 5%;
-            top: 75%;
-            left: 50%;
-            height: 120px;
-            width: 120px;
-            text-align: center;
-            position: fixed;
-            transform: translate(-50%, -50%);
-            background-color: #888888;
-        }
-    </style>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
 
-    <div id="pretest_id" class="longtext" style="display:none;">
+    <div id="pretest_id" class="longtext">
         Please press the button below (using iPhone 3D Touch) to start.
         <span id="feed"></span>
 
-        <div id="btn_test_id" class="btn_class">
+        <div id="btn_test_id" class="btn_class" style="top: 50%;">
         </div>
+
 
     </div>
 
     <div id="cancel_id" class="longtext" style="display:none;">
-        We could not detect 3D Touch on your device. <span id="extra_info"></span> As explained in the description, to participate in this study, you must have <i>3D Touch</i> enabled and working (supported on Safari browser with iPhone 6S; 6S Plus; 7; 7 Plus; 8; 8 Plus; X; XS; or XS
+
+        We could not detect 3D Touch on your device. <span id="extra_info"></span> As explained in the description, to participate in this study, you must have <i>3D Touch</i> enabled and working (supported on Safari browser with iPhone 6S; 6S Plus;
+        7; 7 Plus; 8; 8 Plus; X; XS; or XS
         Max).
         <br><br>
         If you believe that this is mistake on our part, please email lkcsgaspar@gmail.com.
@@ -83,16 +38,17 @@
 
     </div>
 
-    <div id="intro_id" class="longtext">
+    <div id="intro_id" class="longtext" style="display:none;">
         <h1>Information</h1>
 
         <p><b>Aim:</b>
             <br>We are checking how we can record "touch force" data with the 3D Touch technology on certain iPhones. Later on we might be able to use this for interesting psychological measurements.
+            <br>Participants have to respond with touchscreen presses to items appearing on the screen.
         </p>
 
         <p><b>Payment:</b>
             <br>
-            The task takes around 2-3 minutes.
+            The task takes around 3 minutes.
             <span id="pay_info">
                 <b>
                     We could not detect your Prolific ID!
@@ -127,46 +83,94 @@
         <h1>Instructions</h1>
 
         <p>
-            During the task, you will see a button on the screen like the one below.
+            Please place your iPhone on a table (or other solid surface).
+        </p>
+        <p>
+            During the task, you will see two buttons at the bottom of the screen, both like the one below.
         </p>
 
         <div class="btn_class" style="position: relative;transform:none;">
         </div>
 
         <p>
-            Please hold one of your fingers on this button throughout the task. (If you lift your finger from the screen e.g. by accident, the task will pause and a warning message will appear. The task continues as soon as you put your finger back.)
+            Throughout the task, please hold your left index finger on the left button, and your right index finger on the right button.
         </p>
 
         <p>
-            Each one or two seconds, there will be a message "Press!" Whenever you see this message, please shortly press down on the screen (with the finger that you hold on the button), as if you were pressing a key.
+            Each one or two seconds, in each trial, there will be a left arrow (←) or a right arrow (→) displayed on the screen. Whenever an arrow appears, please shortly press down on the correct button: the left button for left arrow, the right
+            button for right
+            arrow.
         </p>
 
         <p>
-            Sometimes, quickly immediately after the "Press!" message, a "STOP!" message will appear. In that case, try not to press down (or, if already started, stop your press as soon as you can). Don't worry if you can't stop in time, it's
-            normal.
+            For a full response, you need to reach 75% pressure on the button. To help you during the following practice round, your current finger pressure is shown in a dynamic bar above each button. (These bars will not appear in the subsequent
+            task.) Don't be afraid to press hard: iPhones are designed to easily record up to the 100% pressure.
         </p>
-
 
         <p>
-            This task starts right after you tap <b>Start</b> below, so make sure you read and understood the instructions above. The "Press!" messages will begin to appear as soon as you place your finger on the touch button on the next screen.
+            To end the response (and let the next trial start), you need to lighten the pressure below 25% on the button. (If you accidentally lift your finger from the screen, it is alright, but the task will pause and a warning message will appear.
+            The task will continue as soon as you put your finger back.)
         </p>
 
+        <p>
+            Start the practice with the <b>Start</b> button below. On the next screen, the arrows will begin to appear as soon as you placed both your fingers on the touch buttons.
+        </p>
+
+        <br>
         <button type="button" onclick='begin();'>Start</button>
         <br>
         <br>
     </div>
 
+    <div id="instructions2_id" class="longtext" style="display:none;">
+        <p>
+            For the rest of the task, on some of trials, very shortly after the arrow appears, a "STOP!" message will also appear above the arrow. When this happens, please try your best to stop your response and <i>not press</i> any button on that
+            trial.
+        </p>
+
+        <p>
+            It is normal and expected if you will not always be able to successfully stop when a "STOP!" message appears. However, if you continue to try very hard to stop when a "STOP!" message appears, you
+            should be able to stop sometimes.
+        </p>
+
+        <p>
+            <b>
+                Please balance the requirement to respond quickly and accurately to the arrows while trying very hard to stop to the "STOP!" message.
+            </b>
+        </p>
+
+        <br>
+        <button type="button" onclick='begin();'>Start</button>
+        <br>
+        <br>
+    </div>
+
+
     <div id="task_id" style="display:none;">
 
-        <div id="stimulus_id"></div>
 
-        <div id="btn_id" class="btn_class">
+        <div id="stop_id">
         </div>
 
-        <!--
-        <div id="jscd_id"></div>
-        <div id="force_id"></div>
-        -->
+
+        <div id="stimulus_id">+</div>
+
+        <div class="btn_class btn_left" id="btn_id_left">
+        </div>
+        <div class="btn_class btn_right" id="btn_id_right">
+        </div>
+
+        <div class="container btn_left" id="contain1">
+            <div class="bar" id="bar_id_left">
+            </div>
+        </div>
+
+        <div class="container btn_right" id="contain2">
+            <div class="bar" id="bar_id_right">
+            </div>
+        </div>
+
+        <p id="lighten" style="display:none;width:40%;margin:auto">Please end the response (decrease the pressure) to continue.</p>
     </div>
 
     <div id="end_id" class="longtext" style="display:none;">
